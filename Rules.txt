@@ -1,0 +1,12 @@
+🎮 Zone Runner – Rules
+🟩 Survive & Run: Keep moving forward and go as far as possible.
+❤️ 3 Lives Only: You lose a life when you hit obstacles.
+⚠️ Avoid Obstacles: Spikes, enemies, lasers, drones, asteroids, and more.
+🌈 Zone Changes: Each zone has unique physics:
+Green → Normal
+Blue → Slippery ice
+Yellow → Inverted gravity
+Gray → Zero gravity
+🎯 Adapt Fast: Controls and movement feel change in every zone.
+💀 Game Over: When all lives are lost.
+🏆 Goal: Beat your best distance score.
