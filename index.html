@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZONE RUNNER</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="start-overlay" class="show">
+  <div id="ov-title">ZONE RUNNER</div>
+  <div id="instr-box">
+    <p<b>CONTROLS:</b></p>
+    <ul>
+      <li><b>WASD / ARROWS:</b> Move & Jump</li>
+      <li><b>SPACE:</b> Jump / Double Jump</li>
+    </ul>
+    <p style="margin-top:15px;"><b>UNSTABLE DIMENSIONS:</b></p>
+    <ul>
+      <li><span style="color:#2ecc71">GREEN ZONE:</span> Standard Running - the last stable ground</li>
+      <li><span style="color:#1a8fff">ICE ZONE:</span> Icy - Time Half-Stopped, No Braking!</li>
+      <li><span style="color:#ffcc00">INVERTED ZONE:</span> Gravity Reversed - Ceiling Run</li>
+      <li><span style="color:#aaa">SPACE ZONE:</span> Zero-G - Reality Torn to Fragments</li>
+      <li><span style="color:#a64dff">ECHO ZONE:</span> Every Hazard Repeats - Dodge It Twice</li>
+    </ul>
+    <p style="margin-top:12px; font-size:12px; color:rgba(255,255,255,0.5);">⚡ Collect energy fragments for bonus score &nbsp;|&nbsp; The collapse accelerates as you go &nbsp;|&nbsp; 🔊 Sound on for best experience</p>
+  </div>
+  <button id="start-btn" style="margin-top:20px;">BEGIN THE RUN</button>
+</div>
+
+<!-- DOM PARALLAX BACKGROUNDS -->
+<div class="zone-bg" id="bg-green">
+  <div class="zbg-sky"></div>
+  <div class="zbg-mtn zbg-mtn-far" id="green-mtn-far">
+    <svg viewBox="0 0 2000 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="gGreenFar" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#c9edb0"/><stop offset="35%" stop-color="#8fcf82"/><stop offset="100%" stop-color="#3a7d4a"/>
+        </linearGradient>
+      </defs>
+      <polygon fill="url(#gGreenFar)" points="0,300 50,170 110,210 170,80 240,190 310,110 380,180 450,50 520,170 590,90 660,200 730,40 800,160 870,100 940,220 1000,130 1000,300"/>
+      <polygon fill="url(#gGreenFar)" points="1000,300 1000,130 1050,170 1110,210 1170,80 1240,190 1310,110 1380,180 1450,50 1520,170 1590,90 1660,200 1730,40 1800,160 1870,100 1940,220 2000,130 2000,300"/>
+      <polygon fill="rgba(255,244,190,0.35)" points="170,80 205,130 240,190 170,80"/>
+      <polygon fill="rgba(255,244,190,0.35)" points="450,50 490,110 520,170 450,50"/>
+      <polygon fill="rgba(255,244,190,0.35)" points="730,40 770,100 800,160 730,40"/>
+      <polygon fill="rgba(255,244,190,0.35)" points="1170,80 1205,130 1240,190 1170,80"/>
+      <polygon fill="rgba(255,244,190,0.35)" points="1450,50 1490,110 1520,170 1450,50"/>
+      <polygon fill="rgba(255,244,190,0.35)" points="1730,40 1770,100 1800,160 1730,40"/>
+    </svg>
+  </div>
+  <div class="zbg-mtn zbg-mtn-mid" id="green-mtn-mid">
+    <svg viewBox="0 0 2000 380" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="gGreenMid" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#a8d98f"/><stop offset="25%" stop-color="#5fae5f"/><stop offset="100%" stop-color="#255c34"/>
+        </linearGradient>
+      </defs>
+      <polygon fill="url(#gGreenMid)" points="0,380 80,200 160,270 250,70 330,220 420,110 510,250 600,30 690,190 780,80 870,240 960,20 1000,160 1000,380"/>
+      <polygon fill="url(#gGreenMid)" points="1000,380 1000,160 1080,200 1160,270 1250,70 1330,220 1420,110 1510,250 1600,30 1690,190 1780,80 1870,240 1960,20 2000,160 2000,380"/>
+      <polygon fill="rgba(220,245,180,0.45)" points="250,70 295,150 330,220 250,70"/>
+      <polygon fill="rgba(220,245,180,0.45)" points="600,30 645,120 690,190 600,30"/>
+      <polygon fill="rgba(220,245,180,0.45)" points="960,20 1000,100 1000,160 960,20"/>
+      <polygon fill="rgba(220,245,180,0.45)" points="1250,70 1295,150 1330,220 1250,70"/>
+      <polygon fill="rgba(220,245,180,0.45)" points="1600,30 1645,120 1690,190 1600,30"/>
+      <polygon fill="rgba(220,245,180,0.45)" points="1960,20 2000,100 2000,160 1960,20"/>
+      <polygon fill="rgba(15,45,20,0.3)" points="330,220 420,110 385,210 330,220"/>
+      <polygon fill="rgba(15,45,20,0.3)" points="690,190 780,80 745,180 690,190"/>
+      <polygon fill="rgba(15,45,20,0.3)" points="1330,220 1420,110 1385,210 1330,220"/>
+      <polygon fill="rgba(15,45,20,0.3)" points="1690,190 1780,80 1745,180 1690,190"/>
+    </svg>
+  </div>
+  <div class="zbg-mtn zbg-mtn-near" id="green-mtn-near">
+    <svg viewBox="0 0 2000 460" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="gGreenNear" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#8fc477"/><stop offset="18%" stop-color="#3f8a4c"/><stop offset="100%" stop-color="#153b22"/>
+        </linearGradient>
+      </defs>
+      <polygon fill="url(#gGreenNear)" points="0,460 90,260 180,340 280,100 370,280 470,160 570,310 670,50 770,230 870,120 970,290 1000,180 1000,460"/>
+      <polygon fill="url(#gGreenNear)" points="1000,460 1000,180 1090,260 1180,340 1280,100 1370,280 1470,160 1570,310 1670,50 1770,230 1870,120 1970,290 2000,180 2000,460"/>
+      <polygon fill="rgba(200,235,150,0.5)" points="280,100 330,190 370,280 280,100"/>
+      <polygon fill="rgba(200,235,150,0.5)" points="670,50 720,150 770,230 670,50"/>
+      <polygon fill="rgba(200,235,150,0.5)" points="1280,100 1330,190 1370,280 1280,100"/>
+      <polygon fill="rgba(200,235,150,0.5)" points="1670,50 1720,150 1770,230 1670,50"/>
+      <polygon fill="rgba(10,30,15,0.4)" points="370,280 470,160 430,270 370,280"/>
+      <polygon fill="rgba(10,30,15,0.4)" points="770,230 870,120 830,220 770,230"/>
+      <polygon fill="rgba(10,30,15,0.4)" points="1370,280 1470,160 1430,270 1370,280"/>
+      <polygon fill="rgba(10,30,15,0.4)" points="1770,230 1870,120 1830,220 1770,230"/>
+    </svg>
+  </div>
+  <div class="zbg-ground" id="green-ground">
+    <div class="zbg-ground-scroll">
+      <svg viewBox="0 0 2000 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="grassBase" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#a8d977"/><stop offset="45%" stop-color="#6fb84f"/><stop offset="100%" stop-color="#3d7a34"/>
+          </linearGradient>
+          <pattern id="grassTex" x="0" y="0" width="500" height="300" patternUnits="userSpaceOnUse">
+            <ellipse cx="130" cy="90" rx="110" ry="55" fill="rgba(70,140,50,0.22)"/>
+            <ellipse cx="360" cy="210" rx="85" ry="42" fill="rgba(55,120,45,0.18)"/>
+            <ellipse cx="60" cy="240" rx="60" ry="32" fill="rgba(90,160,60,0.16)"/>
+            <ellipse cx="430" cy="55" rx="65" ry="38" fill="rgba(65,130,48,0.2)"/>
+            <ellipse cx="250" cy="150" rx="75" ry="40" fill="rgba(85,160,60,0.15)"/>
+            <line x1="0" y1="60" x2="15" y2="20" stroke="rgba(220,255,180,0.5)" stroke-width="2"/>
+            <line x1="90" y1="140" x2="105" y2="100" stroke="rgba(220,255,180,0.4)" stroke-width="2"/>
+            <line x1="180" y1="95" x2="195" y2="55" stroke="rgba(220,255,180,0.45)" stroke-width="2"/>
+            <line x1="260" y1="185" x2="275" y2="145" stroke="rgba(220,255,180,0.4)" stroke-width="2"/>
+            <line x1="310" y1="25" x2="325" y2="-10" stroke="rgba(220,255,180,0.5)" stroke-width="2"/>
+            <line x1="370" y1="270" x2="385" y2="230" stroke="rgba(220,255,180,0.35)" stroke-width="2"/>
+            <circle cx="50" cy="28" r="3.5" fill="rgba(255,240,140,0.85)"/>
+            <circle cx="205" cy="52" r="2.5" fill="rgba(255,240,140,0.75)"/>
+            <circle cx="345" cy="148" r="3" fill="rgba(255,240,140,0.8)"/>
+            <circle cx="75" cy="170" r="2" fill="rgba(255,240,140,0.7)"/>
+            <circle cx="270" cy="290" r="3.5" fill="rgba(255,240,140,0.75)"/>
+            <circle cx="435" cy="28" r="2.5" fill="rgba(255,240,140,0.65)"/>
+          </pattern>
+          <linearGradient id="grassTop" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="rgba(230,255,190,0.4)"/><stop offset="100%" stop-color="rgba(230,255,190,0)"/>
+          </linearGradient>
+        </defs>
+        <rect width="2000" height="300" fill="url(#grassBase)"/>
+        <rect width="2000" height="300" fill="url(#grassTex)"/>
+        <rect width="2000" height="45" fill="url(#grassTop)"/>
+        <rect y="220" width="2000" height="80" fill="rgba(20,50,15,0.2)"/>
+      </svg>
+    </div>
+    <div class="zbg-glisten"></div>
+  </div>
+  <div class="zbg-particles" id="green-particles"></div>
+  <div class="zbg-vignette"></div>
+</div>
+
+<div class="zone-bg" id="bg-blue">
+  <div class="zbg-sky"></div>
+  <div class="zbg-mtn zbg-mtn-far" id="blue-mtn-far">
+    <svg viewBox="0 0 2000 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="gBlueFar" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#c8dff5"/><stop offset="35%" stop-color="#7aaad8"/><stop offset="100%" stop-color="#2a4a8c"/>
+        </linearGradient>
+      </defs>
+      <polygon fill="url(#gBlueFar)" points="0,300 50,170 110,210 170,80 240,190 310,110 380,180 450,50 520,170 590,90 660,200 730,40 800,160 870,100 940,220 1000,130 1000,300"/>
+      <polygon fill="url(#gBlueFar)" points="1000,300 1000,130 1050,170 1110,210 1170,80 1240,190 1310,110 1380,180 1450,50 1520,170 1590,90 1660,200 1730,40 1800,160 1870,100 1940,220 2000,130 2000,300"/>
+      <polygon fill="rgba(220,240,255,0.5)" points="170,80 205,130 240,190 170,80"/>
+      <polygon fill="rgba(220,240,255,0.5)" points="450,50 490,110 520,170 450,50"/>
+      <polygon fill="rgba(220,240,255,0.5)" points="730,40 770,100 800,160 730,40"/>
+      <polygon fill="rgba(220,240,255,0.5)" points="1170,80 1205,130 1240,190 1170,80"/>
+      <polygon fill="rgba(220,240,255,0.5)" points="1450,50 1490,110 1520,170 1450,50"/>
+      <polygon fill="rgba(220,240,255,0.5)" points="1730,40 1770,100 1800,160 1730,40"/>
+    </svg>
+  </div>
+  <div class="zbg-mtn zbg-mtn-mid" id="blue-mtn-mid">
+    <svg viewBox="0 0 2000 380" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="gBlueMid" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#b2d5f0"/><stop offset="25%" stop-color="#5a8fc8"/><stop offset="100%" stop-color="#1e3670"/>
+        </linearGradient>
+      </defs>
+      <polygon fill="url(#gBlueMid)" points="0,380 80,200 160,270 250,70 330,220 420,110 510,250 600,30 690,190 780,80 870,240 960,20 1000,160 1000,380"/>
+      <polygon fill="url(#gBlueMid)" points="1000,380 1000,160 1080,200 1160,270 1250,70 1330,220 1420,110 1510,250 1600,30 1690,190 1780,80 1870,240 1960,20 2000,160 2000,380"/>
+      <polygon fill="rgba(210,238,255,0.6)" points="250,70 295,150 330,220 250,70"/>
+      <polygon fill="rgba(210,238,255,0.6)" points="600,30 645,120 690,190 600,30"/>
+      <polygon fill="rgba(210,238,255,0.6)" points="960,20 1000,100 1000,160 960,20"/>
+      <polygon fill="rgba(210,238,255,0.6)" points="1250,70 1295,150 1330,220 1250,70"/>
+      <polygon fill="rgba(210,238,255,0.6)" points="1600,30 1645,120 1690,190 1600,30"/>
+      <polygon fill="rgba(210,238,255,0.6)" points="1960,20 2000,100 2000,160 1960,20"/>
+      <polygon fill="rgba(10,25,80,0.35)" points="330,220 420,110 385,210 330,220"/>
+      <polygon fill="rgba(10,25,80,0.35)" points="690,190 780,80 745,180 690,190"/>
+      <polygon fill="rgba(10,25,80,0.35)" points="1330,220 1420,110 1385,210 1330,220"/>
+      <polygon fill="rgba(10,25,80,0.35)" points="1690,190 1780,80 1745,180 1690,190"/>
+    </svg>
+  </div>
+  <div class="zbg-mtn zbg-mtn-near" id="blue-mtn-near">
+    <svg viewBox="0 0 2000 460" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="gBlueNear" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#a8cce8"/><stop offset="18%" stop-color="#4878b0"/><stop offset="100%" stop-color="#162952"/>
+        </linearGradient>
+      </defs>
+      <polygon fill="url(#gBlueNear)" points="0,460 90,260 180,340 280,100 370,280 470,160 570,310 670,50 770,230 870,120 970,290 1000,180 1000,460"/>
+      <polygon fill="url(#gBlueNear)" points="1000,460 1000,180 1090,260 1180,340 1280,100 1370,280 1470,160 1570,310 1670,50 1770,230 1870,120 1970,290 2000,180 2000,460"/>
+      <polygon fill="rgba(200,232,255,0.65)" points="280,100 330,190 370,280 280,100"/>
+      <polygon fill="rgba(200,232,255,0.65)" points="670,50 720,150 770,230 670,50"/>
+      <polygon fill="rgba(200,232,255,0.65)" points="1280,100 1330,190 1370,280 1280,100"/>
+      <polygon fill="rgba(200,232,255,0.65)" points="1670,50 1720,150 1770,230 1670,50"/>
+      <polygon fill="rgba(8,18,60,0.45)" points="370,280 470,160 430,270 370,280"/>
+      <polygon fill="rgba(8,18,60,0.45)" points="770,230 870,120 830,220 770,230"/>
+      <polygon fill="rgba(8,18,60,0.45)" points="1370,280 1470,160 1430,270 1370,280"/>
+      <polygon fill="rgba(8,18,60,0.45)" points="1770,230 1870,120 1830,220 1770,230"/>
+    </svg>
+  </div>
+  <div class="zbg-ground" id="blue-ground">
+    <div class="zbg-ground-scroll">
+      <svg viewBox="0 0 2000 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="iceBase" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#c0e5fa"/><stop offset="45%" stop-color="#90ccec"/><stop offset="100%" stop-color="#68b4de"/>
+          </linearGradient>
+          <pattern id="cracks" x="0" y="0" width="500" height="300" patternUnits="userSpaceOnUse">
+            <ellipse cx="130" cy="90" rx="110" ry="55" fill="rgba(90,185,230,0.22)"/>
+            <ellipse cx="360" cy="210" rx="85" ry="42" fill="rgba(70,165,215,0.18)"/>
+            <ellipse cx="60" cy="240" rx="60" ry="32" fill="rgba(110,195,238,0.16)"/>
+            <ellipse cx="430" cy="55" rx="65" ry="38" fill="rgba(85,175,222,0.2)"/>
+            <ellipse cx="250" cy="150" rx="75" ry="40" fill="rgba(100,195,240,0.15)"/>
+            <line x1="0" y1="60" x2="90" y2="140" stroke="rgba(255,255,255,0.52)" stroke-width="1.5"/>
+            <line x1="90" y1="140" x2="180" y2="95" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+            <line x1="180" y1="95" x2="260" y2="185" stroke="rgba(255,255,255,0.48)" stroke-width="1.5"/>
+            <line x1="60" y1="220" x2="170" y2="285" stroke="rgba(255,255,255,0.42)" stroke-width="1"/>
+            <line x1="310" y1="25" x2="400" y2="120" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+            <line x1="230" y1="230" x2="370" y2="270" stroke="rgba(255,255,255,0.38)" stroke-width="1"/>
+            <line x1="10" y1="295" x2="140" y2="250" stroke="rgba(255,255,255,0.33)" stroke-width="1"/>
+            <line x1="260" y1="130" x2="420" y2="170" stroke="rgba(255,255,255,0.43)" stroke-width="1"/>
+            <line x1="440" y1="200" x2="500" y2="240" stroke="rgba(255,255,255,0.38)" stroke-width="1"/>
+            <line x1="0" y1="35" x2="140" y2="12" stroke="rgba(255,255,255,0.75)" stroke-width="2.8" stroke-linecap="round"/>
+            <line x1="200" y1="115" x2="350" y2="90" stroke="rgba(255,255,255,0.68)" stroke-width="2.2" stroke-linecap="round"/>
+            <line x1="70" y1="195" x2="195" y2="175" stroke="rgba(255,255,255,0.62)" stroke-width="2" stroke-linecap="round"/>
+            <line x1="300" y1="250" x2="460" y2="228" stroke="rgba(255,255,255,0.65)" stroke-width="2.2" stroke-linecap="round"/>
+            <line x1="110" y1="268" x2="225" y2="255" stroke="rgba(255,255,255,0.52)" stroke-width="1.6" stroke-linecap="round"/>
+            <line x1="380" y1="80" x2="500" y2="60" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="50" cy="28" r="3.5" fill="rgba(255,255,255,0.85)"/>
+            <circle cx="205" cy="52" r="2.5" fill="rgba(255,255,255,0.75)"/>
+            <circle cx="345" cy="148" r="3" fill="rgba(255,255,255,0.8)"/>
+            <circle cx="75" cy="170" r="2" fill="rgba(255,255,255,0.7)"/>
+            <circle cx="270" cy="290" r="3.5" fill="rgba(255,255,255,0.75)"/>
+            <circle cx="435" cy="28" r="2.5" fill="rgba(255,255,255,0.65)"/>
+            <circle cx="155" cy="300" r="2" fill="rgba(255,255,255,0.6)"/>
+            <circle cx="480" cy="185" r="3" fill="rgba(255,255,255,0.72)"/>
+          </pattern>
+          <linearGradient id="iceTop" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="rgba(255,255,255,0.45)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+          </linearGradient>
+        </defs>
+        <rect width="2000" height="300" fill="url(#iceBase)"/>
+        <rect width="2000" height="300" fill="url(#cracks)"/>
+        <rect width="2000" height="55" fill="url(#iceTop)"/>
+        <rect y="210" width="2000" height="90" fill="rgba(35,75,130,0.18)"/>
+      </svg>
+    </div>
+    <div class="zbg-glisten"></div>
+  </div>
+  <div class="zbg-particles" id="blue-particles"></div>
+  <div class="zbg-vignette"></div>
+</div>
+
+<div class="zone-bg" id="bg-yellow">
+  <div class="zbg-sky"></div>
+  <div class="zbg-flip" style="position:absolute;inset:0;">
+    <div class="zbg-mtn zbg-mtn-far" id="yellow-mtn-far">
+      <svg viewBox="0 0 2000 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="gYelFar" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3a2000"/><stop offset="100%" stop-color="#8a5000"/>
+          </linearGradient>
+        </defs>
+        <g opacity="0.5">
+          <rect x="40" y="90" width="70" height="210" fill="url(#gYelFar)"/>
+          <rect x="150" y="50" width="55" height="250" fill="url(#gYelFar)"/>
+          <rect x="240" y="120" width="90" height="180" fill="url(#gYelFar)"/>
+          <rect x="380" y="70" width="60" height="230" fill="url(#gYelFar)"/>
+          <rect x="480" y="130" width="75" height="170" fill="url(#gYelFar)"/>
+          <rect x="600" y="40" width="65" height="260" fill="url(#gYelFar)"/>
+          <rect x="720" y="100" width="80" height="200" fill="url(#gYelFar)"/>
+          <rect x="850" y="60" width="70" height="240" fill="url(#gYelFar)"/>
+          <rect x="960" y="110" width="55" height="190" fill="url(#gYelFar)"/>
+        </g>
+        <g opacity="0.5">
+          <rect x="1040" y="90" width="70" height="210" fill="url(#gYelFar)"/>
+          <rect x="1150" y="50" width="55" height="250" fill="url(#gYelFar)"/>
+          <rect x="1240" y="120" width="90" height="180" fill="url(#gYelFar)"/>
+          <rect x="1380" y="70" width="60" height="230" fill="url(#gYelFar)"/>
+          <rect x="1480" y="130" width="75" height="170" fill="url(#gYelFar)"/>
+          <rect x="1600" y="40" width="65" height="260" fill="url(#gYelFar)"/>
+          <rect x="1720" y="100" width="80" height="200" fill="url(#gYelFar)"/>
+          <rect x="1850" y="60" width="70" height="240" fill="url(#gYelFar)"/>
+          <rect x="1960" y="110" width="55" height="190" fill="url(#gYelFar)"/>
+        </g>
+      </svg>
+    </div>
+    <div class="zbg-mtn zbg-mtn-mid" id="yellow-mtn-mid">
+      <svg viewBox="0 0 2000 380" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="gYelMid" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#2a1600"/><stop offset="100%" stop-color="#b06d00"/>
+          </linearGradient>
+        </defs>
+        <g opacity="0.72">
+          <rect x="20" y="140" width="90" height="240" fill="url(#gYelMid)"/>
+          <rect x="140" y="80" width="70" height="300" fill="url(#gYelMid)"/>
+          <rect x="260" y="180" width="110" height="200" fill="url(#gYelMid)"/>
+          <rect x="430" y="60" width="80" height="320" fill="url(#gYelMid)"/>
+          <rect x="560" y="150" width="95" height="230" fill="url(#gYelMid)"/>
+          <rect x="720" y="40" width="75" height="340" fill="url(#gYelMid)"/>
+          <rect x="860" y="120" width="100" height="260" fill="url(#gYelMid)"/>
+        </g>
+        <g fill="#ffd166" opacity="0.8">
+          <rect x="45" y="170" width="8" height="10"/><rect x="65" y="170" width="8" height="10"/>
+          <rect x="45" y="200" width="8" height="10"/><rect x="65" y="200" width="8" height="10"/>
+          <rect x="160" y="110" width="8" height="10"/><rect x="180" y="110" width="8" height="10"/>
+          <rect x="160" y="150" width="8" height="10"/><rect x="180" y="150" width="8" height="10"/>
+          <rect x="450" y="90" width="8" height="10"/><rect x="470" y="90" width="8" height="10"/>
+          <rect x="450" y="130" width="8" height="10"/><rect x="470" y="130" width="8" height="10"/>
+          <rect x="745" y="70" width="8" height="10"/><rect x="765" y="70" width="8" height="10"/>
+          <rect x="745" y="110" width="8" height="10"/><rect x="765" y="110" width="8" height="10"/>
+        </g>
+        <g opacity="0.72">
+          <rect x="1020" y="140" width="90" height="240" fill="url(#gYelMid)"/>
+          <rect x="1140" y="80" width="70" height="300" fill="url(#gYelMid)"/>
+          <rect x="1260" y="180" width="110" height="200" fill="url(#gYelMid)"/>
+          <rect x="1430" y="60" width="80" height="320" fill="url(#gYelMid)"/>
+          <rect x="1560" y="150" width="95" height="230" fill="url(#gYelMid)"/>
+          <rect x="1720" y="40" width="75" height="340" fill="url(#gYelMid)"/>
+          <rect x="1860" y="120" width="100" height="260" fill="url(#gYelMid)"/>
+        </g>
+        <g fill="#ffd166" opacity="0.8">
+          <rect x="1045" y="170" width="8" height="10"/><rect x="1065" y="170" width="8" height="10"/>
+          <rect x="1450" y="90" width="8" height="10"/><rect x="1470" y="90" width="8" height="10"/>
+        </g>
+      </svg>
+    </div>
+    <div class="zbg-mtn zbg-mtn-near" id="yellow-mtn-near">
+      <svg viewBox="0 0 2000 460" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="gYelNear" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#180d00"/><stop offset="100%" stop-color="#e08a10"/>
+          </linearGradient>
+        </defs>
+        <g opacity="0.9">
+          <rect x="0" y="200" width="120" height="260" fill="url(#gYelNear)"/>
+          <rect x="150" y="120" width="90"  height="340" fill="url(#gYelNear)"/>
+          <rect x="270" y="240" width="140" height="220" fill="url(#gYelNear)"/>
+          <rect x="460" y="90" width="100" height="370" fill="url(#gYelNear)"/>
+          <rect x="620" y="200" width="115" height="260" fill="url(#gYelNear)"/>
+          <rect x="800" y="60" width="95" height="400" fill="url(#gYelNear)"/>
+        </g>
+        <g fill="#ffe08a" opacity="0.95">
+          <rect x="20" y="240" width="12" height="16"/><rect x="55" y="240" width="12" height="16"/><rect x="90" y="240" width="12" height="16"/>
+          <rect x="20" y="290" width="12" height="16"/><rect x="55" y="290" width="12" height="16"/><rect x="90" y="290" width="12" height="16"/>
+          <rect x="175" y="160" width="12" height="16"/><rect x="210" y="160" width="12" height="16"/>
+          <rect x="175" y="210" width="12" height="16"/><rect x="210" y="210" width="12" height="16"/>
+          <rect x="485" y="130" width="12" height="16"/><rect x="520" y="130" width="12" height="16"/>
+          <rect x="485" y="180" width="12" height="16"/><rect x="520" y="180" width="12" height="16"/>
+          <rect x="825" y="100" width="12" height="16"/><rect x="860" y="100" width="12" height="16"/>
+        </g>
+        <g opacity="0.9">
+          <rect x="1000" y="200" width="120" height="260" fill="url(#gYelNear)"/>
+          <rect x="1150" y="120" width="90"  height="340" fill="url(#gYelNear)"/>
+          <rect x="1270" y="240" width="140" height="220" fill="url(#gYelNear)"/>
+          <rect x="1460" y="90" width="100" height="370" fill="url(#gYelNear)"/>
+          <rect x="1620" y="200" width="115" height="260" fill="url(#gYelNear)"/>
+          <rect x="800" y="60" width="95" height="400" fill="url(#gYelNear)"/>
+        </g>
+      </svg>
+    </div>
+    <div class="zbg-ground" id="yellow-ground">
+      <div class="zbg-ground-scroll">
+        <svg viewBox="0 0 2000 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="yelEnergy" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#ffb347"/><stop offset="45%" stop-color="#c96a10"/><stop offset="100%" stop-color="#6e3400"/>
+            </linearGradient>
+          </defs>
+          <rect width="2000" height="300" fill="url(#yelEnergy)"/>
+          <rect y="0" width="2000" height="45" fill="rgba(255,220,150,0.4)"/>
+        </svg>
+      </div>
+      <div class="zbg-glisten"></div>
+    </div>
+  </div>
+  <div class="zbg-particles" id="yellow-particles"></div>
+  <div class="zbg-vignette"></div>
+</div>
+
+<div class="zone-bg" id="bg-gray">
+  <div class="zbg-sky"></div>
+  <div class="zbg-mtn zbg-mtn-far" id="gray-mtn-far">
+    <svg viewBox="0 0 2000 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="gGrayFar" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#4a3068"/><stop offset="50%" stop-color="#2a1c48"/><stop offset="100%" stop-color="#100a20"/>
+        </linearGradient>
+      </defs>
+      <polygon fill="url(#gGrayFar)" opacity="0.55" points="0,300 50,170 110,210 170,80 240,190 310,110 380,180 450,50 520,170 590,90 660,200 730,40 800,160 870,100 940,220 1000,130 1000,300"/>
+      <polygon fill="url(#gGrayFar)" opacity="0.55" points="1000,300 1000,130 1050,170 1110,210 1170,80 1240,190 1310,110 1380,180 1450,50 1520,170 1590,90 1660,200 1730,40 1800,160 1870,100 1940,220 2000,130 2000,300"/>
+    </svg>
+  </div>
+  <div class="zbg-mtn zbg-mtn-mid" id="gray-mtn-mid">
+    <svg viewBox="0 0 2000 380" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="gGrayMid" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#6a3f8f"/><stop offset="40%" stop-color="#3a2258"/><stop offset="100%" stop-color="#150c28"/>
+        </linearGradient>
+      </defs>
+      <polygon fill="url(#gGrayMid)" opacity="0.7" points="0,380 80,200 160,270 250,70 330,220 420,110 510,250 600,30 690,190 780,80 870,240 960,20 1000,160 1000,380"/>
+      <polygon fill="url(#gGrayMid)" opacity="0.7" points="1000,380 1000,160 1080,200 1160,270 1250,70 1330,220 1420,110 1510,250 1600,30 1690,190 1780,80 1870,240 1960,20 2000,160 2000,380"/>
+      <ellipse cx="600" cy="120" rx="90" ry="50" fill="rgba(180,110,255,0.18)"/>
+      <ellipse cx="1420" cy="160" rx="110" ry="60" fill="rgba(120,80,220,0.15)"/>
+    </svg>
+  </div>
+  <div class="zbg-mtn zbg-mtn-near" id="gray-mtn-near">
+    <svg viewBox="0 0 2000 460" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="gGrayNear" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#7a4aad"/><stop offset="20%" stop-color="#402868"/><stop offset="100%" stop-color="#0c0818"/>
+        </linearGradient>
+      </defs>
+      <polygon fill="url(#gGrayNear)" opacity="0.85" points="0,460 90,260 180,340 280,100 370,280 470,160 570,310 670,50 770,230 870,120 970,290 1000,180 1000,460"/>
+      <polygon fill="url(#gGrayNear)" opacity="0.85" points="1000,460 1000,180 1090,260 1180,340 1280,100 1370,280 1470,160 1570,310 1670,50 1770,230 1870,120 1970,290 2000,180 2000,460"/>
+      <circle cx="280" cy="140" r="6" fill="rgba(255,255,255,0.5)"/>
+      <circle cx="1470" cy="200" r="8" fill="rgba(255,255,255,0.4)"/>
+      <circle cx="770" cy="180" r="5" fill="rgba(200,160,255,0.55)"/>
+    </svg>
+  </div>
+  <div class="zbg-particles" id="gray-particles"></div>
+  <div class="zbg-vignette"></div>
+</div>
+
+<div class="zone-bg" id="bg-echo">
+  <div class="zbg-sky"></div>
+  <div class="zbg-mtn zbg-mtn-far" id="echo-mtn-far">
+    <svg viewBox="0 0 2000 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="gEchoFar" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#1a0e35"/><stop offset="100%" stop-color="#5a2f8f"/>
+        </linearGradient>
+      </defs>
+      <g opacity="0.55">
+        <rect x="40" y="90" width="70" height="210" fill="url(#gEchoFar)"/>
+        <rect x="150" y="50" width="55" height="250" fill="url(#gEchoFar)"/>
+        <rect x="240" y="120" width="90" height="180" fill="url(#gEchoFar)"/>
+        <rect x="380" y="70" width="60" height="230" fill="url(#gEchoFar)"/>
+        <rect x="480" y="130" width="75" height="170" fill="url(#gEchoFar)"/>
+        <rect x="600" y="40" width="65" height="260" fill="url(#gEchoFar)"/>
+        <rect x="720" y="100" width="80" height="200" fill="url(#gEchoFar)"/>
+        <rect x="850" y="60" width="70" height="240" fill="url(#gEchoFar)"/>
+        <rect x="960" y="110" width="55" height="190" fill="url(#gEchoFar)"/>
+      </g>
+      <g opacity="0.55">
+        <rect x="1040" y="90" width="70" height="210" fill="url(#gEchoFar)"/>
+        <rect x="1150" y="50" width="55" height="250" fill="url(#gEchoFar)"/>
+        <rect x="1240" y="120" width="90" height="180" fill="url(#gEchoFar)"/>
+        <rect x="1380" y="70" width="60" height="230" fill="url(#gEchoFar)"/>
+        <rect x="1480" y="130" width="75" height="170" fill="url(#gEchoFar)"/>
+        <rect x="1600" y="40" width="65" height="260" fill="url(#gEchoFar)"/>
+        <rect x="1720" y="100" width="80" height="200" fill="url(#gEchoFar)"/>
+        <rect x="1850" y="60" width="70" height="240" fill="url(#gEchoFar)"/>
+        <rect x="1960" y="110" width="55" height="190" fill="url(#gEchoFar)"/>
+      </g>
+    </svg>
+  </div>
+  <div class="zbg-mtn zbg-mtn-mid" id="echo-mtn-mid">
+    <svg viewBox="0 0 2000 380" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="gEchoMid" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#150a2c"/><stop offset="100%" stop-color="#7a3fc0"/>
+        </linearGradient>
+      </defs>
+      <g opacity="0.75">
+        <rect x="20" y="140" width="90" height="240" fill="url(#gEchoMid)"/>
+        <rect x="140" y="80" width="70" height="300" fill="url(#gEchoMid)"/>
+        <rect x="260" y="180" width="110" height="200" fill="url(#gEchoMid)"/>
+        <rect x="430" y="60" width="80" height="320" fill="url(#gEchoMid)"/>
+        <rect x="560" y="150" width="95" height="230" fill="url(#gEchoMid)"/>
+        <rect x="720" y="40" width="75" height="340" fill="url(#gEchoMid)"/>
+        <rect x="860" y="120" width="100" height="260" fill="url(#gEchoMid)"/>
+      </g>
+      <g fill="#e0a3ff" opacity="0.85">
+        <rect x="45" y="170" width="8" height="10"/><rect x="65" y="170" width="8" height="10"/>
+        <rect x="45" y="200" width="8" height="10"/><rect x="65" y="200" width="8" height="10"/>
+        <rect x="160" y="110" width="8" height="10"/><rect x="180" y="110" width="8" height="10"/>
+        <rect x="450" y="90" width="8" height="10"/><rect x="470" y="90" width="8" height="10"/>
+        <rect x="745" y="70" width="8" height="10"/><rect x="765" y="70" width="8" height="10"/>
+      </g>
+      <g opacity="0.75">
+        <rect x="1020" y="140" width="90" height="240" fill="url(#gEchoMid)"/>
+        <rect x="1140" y="80" width="70" height="300" fill="url(#gEchoMid)"/>
+        <rect x="1260" y="180" width="110" height="200" fill="url(#gEchoMid)"/>
+        <rect x="1430" y="60" width="80" height="320" fill="url(#gEchoMid)"/>
+        <rect x="1560" y="150" width="95" height="230" fill="url(#gEchoMid)"/>
+        <rect x="1720" y="40" width="75" height="340" fill="url(#gEchoMid)"/>
+        <rect x="1860" y="120" width="100" height="260" fill="url(#gEchoMid)"/>
+      </g>
+      <g fill="#e0a3ff" opacity="0.85">
+        <rect x="1045" y="170" width="8" height="10"/><rect x="1065" y="170" width="8" height="10"/>
+        <rect x="1450" y="90" width="8" height="10"/><rect x="1470" y="90" width="8" height="10"/>
+      </g>
+    </svg>
+  </div>
+  <div class="zbg-mtn zbg-mtn-near" id="echo-mtn-near">
+    <svg viewBox="0 0 2000 460" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="gEchoNear" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#100822"/><stop offset="100%" stop-color="#a855e0"/>
+        </linearGradient>
+      </defs>
+      <g opacity="0.92">
+        <rect x="0" y="200" width="120" height="260" fill="url(#gEchoNear)"/>
+        <rect x="150" y="120" width="90" height="340" fill="url(#gEchoNear)"/>
+        <rect x="270" y="240" width="140" height="220" fill="url(#gEchoNear)"/>
+        <rect x="460" y="90" width="100" height="370" fill="url(#gEchoNear)"/>
+        <rect x="620" y="200" width="115" height="260" fill="url(#gEchoNear)"/>
+        <rect x="800" y="60" width="95" height="400" fill="url(#gEchoNear)"/>
+      </g>
+      <g fill="#f0c6ff" opacity="0.95">
+        <rect x="20" y="240" width="12" height="16"/><rect x="55" y="240" width="12" height="16"/><rect x="90" y="240" width="12" height="16"/>
+        <rect x="20" y="290" width="12" height="16"/><rect x="55" y="290" width="12" height="16"/><rect x="90" y="290" width="12" height="16"/>
+        <rect x="175" y="160" width="12" height="16"/><rect x="210" y="160" width="12" height="16"/>
+        <rect x="485" y="130" width="12" height="16"/><rect x="520" y="130" width="12" height="16"/>
+        <rect x="825" y="100" width="12" height="16"/><rect x="860" y="100" width="12" height="16"/>
+      </g>
+      <g opacity="0.92">
+        <rect x="1000" y="200" width="120" height="260" fill="url(#gEchoNear)"/>
+        <rect x="1150" y="120" width="90" height="340" fill="url(#gEchoNear)"/>
+        <rect x="1270" y="240" width="140" height="220" fill="url(#gEchoNear)"/>
+        <rect x="1460" y="90" width="100" height="370" fill="url(#gEchoNear)"/>
+        <rect x="1620" y="200" width="115" height="260" fill="url(#gEchoNear)"/>
+        <rect x="1800" y="60" width="95" height="400" fill="url(#gEchoNear)"/>
+      </g>
+      <g fill="#f0c6ff" opacity="0.95">
+        <rect x="1020" y="240" width="12" height="16"/><rect x="1055" y="240" width="12" height="16"/>
+        <rect x="1485" y="130" width="12" height="16"/><rect x="1520" y="130" width="12" height="16"/>
+      </g>
+    </svg>
+  </div>
+  <div class="zbg-ground" id="echo-ground">
+    <div class="zbg-ground-scroll">
+      <svg viewBox="0 0 2000 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="echoFloor" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#c299ff"/><stop offset="45%" stop-color="#5a2f8f"/><stop offset="100%" stop-color="#1a0e35"/>
+          </linearGradient>
+        </defs>
+        <rect width="2000" height="300" fill="url(#echoFloor)"/>
+        <rect width="2000" height="45" fill="rgba(230,190,255,0.4)"/>
+      </svg>
+    </div>
+    <div class="zbg-glisten"></div>
+  </div>
+  <div class="zbg-particles" id="echo-particles"></div>
+  <div class="zbg-vignette"></div>
+</div>
+
+<canvas id="c"></canvas>
+<div id="ui">
+  <div id="lives">
+    <span class="lh" id="h1">❤️</span><span class="lh" id="h2">❤️</span><span class="lh" id="h3">❤️</span>
+  </div>
+  <div id="zone-label">GREEN ZONE</div>
+  <div id="score-box">
+    <div id="score-val">0m</div>
+    <div id="frag-val">⚡ 0</div>
+    <div id="best-val">BEST: 0m</div>
+  </div>
+</div>
+<div id="flash"></div>
+<div id="zone-flash"></div>
+<div id="overlay">
+  <div id="ov-title">GAME OVER</div>
+  <div id="ov-dist">Distance: 0m</div>
+  <div id="ov-punch" style="font-size:12px;letter-spacing:.08em;color:rgba(255,255,255,.45);margin-bottom:6px;font-style:italic;"></div>
+  <div id="ov-best">Best: 0m</div>
+  <button id="ov-btn">PLAY AGAIN</button>
+</div>
+<div id="touch">
+  <div id="tmove">
+    <div class="tbtn" id="tl">◀</div><div class="tbtn" id="tr">▶</div>
+  </div>
+  <div class="tbtn" id="tj">▲</div>
+</div>
+
+<script type="module" src="main.js"></script>
+</body>
+</html>
